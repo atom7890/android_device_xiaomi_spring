@@ -98,12 +98,13 @@ PRODUCT_COPY_FILES += \
 	$(PREBUILT_PATH)/images/kernel:kernel
 
 # Kernel modules
+GKI_VERSION := 6.1.157-android14-11-g78a0a76cd7b7-ab15497637
 DLKM_MODULES_PATH := $(PREBUILT_PATH)/modules/vendor_dlkm
 RAMDISK_MODULES_PATH := $(PREBUILT_PATH)/modules/vendor_boot
-SYSTEM_DLKM_MODULES_PATH := $(PREBUILT_PATH)/modules/system_dlkm/6.1.138-android14-11-g0c3d559bcd85-ab14529422
+SYSTEM_DLKM_MODULES_PATH := $(PREBUILT_PATH)/modules/system_dlkm/$(GKI_VERSION)
 
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(SYSTEM_DLKM_MODULES_PATH)/,$(TARGET_COPY_OUT_SYSTEM_DLKM)/lib/modules/6.1.138-android14-11-g0c3d559bcd85-ab14529422/)
+    $(call find-copy-subdir-files,*,$(SYSTEM_DLKM_MODULES_PATH)/,$(TARGET_COPY_OUT_SYSTEM_DLKM)/lib/modules/$(GKI_VERSION)/)
 
 BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(DLKM_MODULES_PATH)/*.ko)
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(patsubst %,$(DLKM_MODULES_PATH)/%,$(shell cat $(DLKM_MODULES_PATH)/modules.load))
@@ -174,7 +175,7 @@ include device/qcom/sepolicy_vndr/SEPolicy.mk
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
 # Vendor security patch
-VENDOR_SECURITY_PATCH := 2026-02-01
+VENDOR_SECURITY_PATCH := 2026-06-05
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
