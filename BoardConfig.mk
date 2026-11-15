@@ -86,10 +86,10 @@ BOARD_BOOTCONFIG := \
     androidboot.memcg=1 \
     androidboot.serialconsole=0 \
     androidboot.usbcontroller=4e00000.dwc3 \
-    androidboot.load_modules_parallel=true
+    androidboot.load_modules_parallel=false
 
 # Kernel (prebuilt)
-PREBUILT_PATH := device/xiaomi/spring-kernel
+PREBUILT_PATH := device/xiaomi/spring-kernel-oss
 TARGET_NO_KERNEL_OVERRIDE := true
 TARGET_KERNEL_SOURCE := $(PREBUILT_PATH)/kernel-headers
 BOARD_PREBUILT_DTBIMAGE_DIR := $(PREBUILT_PATH)/images/dtbs/
@@ -98,7 +98,7 @@ PRODUCT_COPY_FILES += \
 	$(PREBUILT_PATH)/images/kernel:kernel
 
 # Kernel modules
-GKI_VERSION := 6.1.157-android14-11-g78a0a76cd7b7-ab15497637
+GKI_VERSION := $(strip $(shell cat $(PREBUILT_PATH)/kernel.release))
 DLKM_MODULES_PATH := $(PREBUILT_PATH)/modules/vendor_dlkm
 RAMDISK_MODULES_PATH := $(PREBUILT_PATH)/modules/vendor_boot
 SYSTEM_DLKM_MODULES_PATH := $(PREBUILT_PATH)/modules/system_dlkm/$(GKI_VERSION)
@@ -110,6 +110,7 @@ BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(DLKM_MODULES_PATH)/*.ko)
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(patsubst %,$(DLKM_MODULES_PATH)/%,$(shell cat $(DLKM_MODULES_PATH)/modules.load))
 BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE := $(DLKM_MODULES_PATH)/modules.blocklist
 
+BOARD_DO_NOT_STRIP_VENDOR_RAMDISK_MODULES := true
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(wildcard $(RAMDISK_MODULES_PATH)/*.ko)
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(patsubst %,$(RAMDISK_MODULES_PATH)/%,$(shell cat $(RAMDISK_MODULES_PATH)/modules.load))
 BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(patsubst %,$(RAMDISK_MODULES_PATH)/%,$(shell cat $(RAMDISK_MODULES_PATH)/modules.load.recovery))
@@ -124,7 +125,7 @@ BOARD_USES_METADATA_PARTITION := true
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
-BOARD_DTBOIMG_PARTITION_SIZE := 8388608
+BOARD_DTBOIMG_PARTITION_SIZE := 25165824
 BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 8388608
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 104857600
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 100663296
