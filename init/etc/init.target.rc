@@ -207,7 +207,6 @@ on charger
     start vendor.power_off_alarm
     write /sys/kernel/cnss/charger_mode 1
     setprop persist.sys.offlinelog.poweroff_charger_log false
-    start vendor.hvdcp_opti
 
 #service vendor.lowi /vendor/bin/sscrpcd
 #   class core
@@ -242,11 +241,6 @@ service vendor.per_proxy /vendor/bin/pm-proxy
 service vendor.mdm_launcher /vendor/bin/sh /vendor/bin/init.mdm.sh
     class core
     oneshot
-
-service vendor.hvdcp_opti /system/vendor/bin/hvdcp_opti
-    class main
-    user root
-    group system wakelock
 
 on property:init.svc.vendor.per_mgr=running
     start vendor.per_proxy
