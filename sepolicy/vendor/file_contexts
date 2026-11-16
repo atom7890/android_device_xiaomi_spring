@@ -87,4 +87,7 @@
 
 # Touch
 /dev/xiaomi-touch u:object_r:touchfeature_device:s0
+# The kernel may read vendor_firmware_file. With the default vendor_file label
+# its direct load of the touch firmware was denied (-13) and fell back to ueventd.
+/(odm|vendor/odm)/firmware/(novatek|focaltech)_ts_fw_[a-z0-9_]*\.bin u:object_r:vendor_firmware_file:s0
 
