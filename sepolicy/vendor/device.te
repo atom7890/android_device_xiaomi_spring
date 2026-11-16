@@ -9,3 +9,6 @@ type vendor_fingerprint_device, dev_type;
 
 # Touch
 type touchfeature_device, dev_type;
+
+# Xiaomi miev device
+type vendor_miev_device, dev_type;

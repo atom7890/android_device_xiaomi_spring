@@ -13,3 +13,21 @@ genfscon sysfs /devices/platform/soc/4cc0000.qcom,qupv3_1_geni_se/4c88000.i2c/i2
 genfscon sysfs /devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a80000.spi/spi_master/spi2/spi2.0/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-02/1c40000.qcom,spmi:qcom,pm7250b@2:qcom,usb-pdphy@1700/Charging_Adapter/pd_adapter/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-06/1c40000.qcom,spmi:qcom,pmk8350@0:rtc@6100/rtc/rtc0/alarmtimer.1.auto/wakeup u:object_r:sysfs_wakeup:s0
+
+# Battery authentication node read by batterysecret
+genfscon sysfs /devices/platform/soc/4cc0000.qcom,qupv3_1_geni_se/4c88000.i2c/i2c-0/0-0055/power_supply/bq28z610/authentic u:object_r:vendor_sysfs_battery_supply:s0
+
+# extcon cables read by system_server (USB / headset / EUD state)
+genfscon sysfs /devices/platform/soc/1628000.qcom,msm-eud/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-02/1c40000.qcom,spmi:qcom,pm7250b@2:qcom,usb-pdphy@1700/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:bolero-codec/wcd937x-codec/extcon u:object_r:sysfs_extcon:s0
+
+# Gauge digest node next to authentic, read by batterysecret
+genfscon sysfs /devices/platform/soc/4cc0000.qcom,qupv3_1_geni_se/4c88000.i2c/i2c-0/0-0055/verify_digest u:object_r:vendor_sysfs_battery_supply:s0
+genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-02/1c40000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5/extcon u:object_r:sysfs_extcon:s0
+
+# Torch LED
+genfscon sysfs /devices/virtual/leds/led:torch u:object_r:vendor_sysfs_torch:s0
+
+# UFS discard_max_bytes, written by init.qcom.rc
+genfscon sysfs /devices/platform/soc/4804000.ufshc/host0/target0:0:0/0:0:0:0/block/sda/queue/discard_max_bytes u:object_r:vendor_sysfs_blk_queue:s0

@@ -13,3 +13,8 @@ set_prop(vendor_init, vendor_qcc_prop)
 set_prop(vendor_init, vendor_camera_prop)
 set_prop(vendor_init, vendor_fp_prop)
 set_prop(vendor_init, vendor_fp_info_prop)
+
+allow vendor_modprobe block_device:dir search;
+
+# init.qcom.rc sets the UFS discard size
+allow init vendor_sysfs_blk_queue:file w_file_perms;

@@ -2,3 +2,6 @@ binder_call(system_server, vendor_hal_displayfeature_xiaomi_default)
 
 # IR
 allow system_server lirc_device:chr_file rw_file_perms;
+
+# InputReader reads the torch LED brightness range
+r_dir_file(system_server, vendor_sysfs_torch)
