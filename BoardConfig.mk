@@ -190,6 +190,15 @@ BOARD_VENDOR_SEPOLICY_DIRS := $(filter-out \
     $(BOARD_VENDOR_SEPOLICY_DIRS))
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
+# device/qcom/sepolicy/generic/product/private makes isolated_compute_app a
+# client of the DSP HAL, which the platform's sepolicy_test rejects (isolated
+# apps may not reach vendor HAL services). Use a directory of symlinks to the
+# same files, minus isolated_compute_app.te.
+PRODUCT_PRIVATE_SEPOLICY_DIRS := $(filter-out \
+    device/qcom/sepolicy/generic/product/private,\
+    $(PRODUCT_PRIVATE_SEPOLICY_DIRS))
+PRODUCT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/qcom-product-private
+
 # Vendor security patch
 VENDOR_SECURITY_PATCH := 2026-06-05
 
