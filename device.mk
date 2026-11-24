@@ -24,8 +24,12 @@ $(call inherit-product-if-exists, device/xiaomi/spring-miuicamera/device.mk)
 # Project ID Quota
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-# Virtual A/B
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
+# Virtual A/B with compression. The Android 17 update_engine rejects legacy (uncompressed)
+# snapshots, so OTAs fail with kInstallDeviceOpenError without this. compression.mk
+# inherits launch_with_vendor_ramdisk.mk itself and adds the compression properties and
+# snapuserd; the method defaults to "none", so it is set here.
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/compression.mk)
 
 # Setup dalvik vm configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
