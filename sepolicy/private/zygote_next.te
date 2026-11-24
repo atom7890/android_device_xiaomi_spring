@@ -1,0 +1,5 @@
+# The Chrome/WebView native zygote reopens its own memfd copy of the seapp
+# contexts through /proc/self/fd. The platform grants the app zygote read,
+# getattr and map on zygote_next_tmpfs, but not open, so every Chrome start
+# logs denials for the plat/system_ext/product seapp_contexts copies.
+allow zygote_next zygote_next_tmpfs:file { open read getattr map };
