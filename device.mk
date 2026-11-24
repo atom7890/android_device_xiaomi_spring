@@ -106,8 +106,14 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
 
 # Bluetooth
+# Do not add android.hardware.bluetooth.audio-impl here: the PenguinOS copy of its
+# service.cpp refuses to register (QTI "Reject AOSP HAL-Interface registration"), so the
+# manifest declares a factory that never appears and Bluetooth stays at TURNING_ON.
+# spring.bluetooth.audio-impl (bluetooth-audio/) is the same provider with a service.cpp
+# that registers; it installs as android.hardware.bluetooth.audio-impl.so, which the vendor
+# audio service loads.
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth.audio-impl
+    spring.bluetooth.audio-impl
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \

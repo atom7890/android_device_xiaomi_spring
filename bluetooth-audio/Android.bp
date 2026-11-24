@@ -1,0 +1,48 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// Bluetooth audio provider for the vendor audio service. Same as the AOSP module in
+// hardware/interfaces/bluetooth/audio/aidl/default except for service.cpp, which
+// registers the provider (the PenguinOS copy refuses to).
+cc_library_shared {
+    name: "spring.bluetooth.audio-impl",
+    stem: "android.hardware.bluetooth.audio-impl",
+    // Installed in /odm so it does not collide with the AOSP module of the same name, and
+    // vendor processes search /odm first, so the audio service loads this copy. The fragment
+    // is needed: servicemanager only lets a vendor-stability AIDL service register when the
+    // VINTF manifest declares it.
+    device_specific: true,
+    vintf_fragments: ["bluetooth_audio.xml"],
+    defaults: [
+        "aconfig_lib_cc_static_link.defaults",
+        "latest_android_hardware_bluetooth_audio_ndk_shared",
+    ],
+    srcs: [
+        "service.cpp",
+        "BluetoothAudioProvider.cpp",
+        "BluetoothAudioProviderFactory.cpp",
+        "A2dpOffloadAudioProvider.cpp",
+        "A2dpSoftwareAudioProvider.cpp",
+        "HearingAidAudioProvider.cpp",
+        "HfpOffloadAudioProvider.cpp",
+        "HfpSoftwareAudioProvider.cpp",
+        "LeAudioOffloadAudioProvider.cpp",
+        "LeAudioSoftwareAudioProvider.cpp",
+    ],
+    export_include_dirs: ["."],
+    header_libs: ["libhardware_headers"],
+    shared_libs: [
+        "libbase",
+        "libbinder_ndk",
+        "libcutils",
+        "libfmq",
+        "liblog",
+        "libbluetooth_audio_session_aidl",
+        "server_configurable_flags",
+    ],
+    static_libs: [
+        "btaudiohal_flags_c_lib",
+    ],
+}
