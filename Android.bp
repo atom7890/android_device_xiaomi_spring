@@ -3,12 +3,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-soong_namespace {
-    imports: [
-        "hardware/xiaomi"
-    ],
-}
-
 install_symlink {
     name: "firmware_wlanmdsp.otaupdate_symlink",
     vendor: true,
@@ -21,4 +15,42 @@ install_symlink {
     installed_location: "firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini",
     symlink_target: "/odm/etc/wifi/WCNSS_qcom_cfg.ini",
     device_specific: true,
+}
+
+install_symlink {
+    name: "CneApp.libvndfwk_detect_jni.qti_vendor_symlink",
+    vendor: true,
+    installed_location: "app/CneApp/lib/arm64/libvndfwk_detect_jni.qti.so",
+    symlink_target: "/vendor/lib64/libvndfwk_detect_jni.qti.so",
+}
+
+// Install the template used to initialize fresh /data/vendor/wifi/wpa configs.
+prebuilt_etc {
+    name: "spring_wpa_supplicant_conf",
+    src: ":wpa_supplicant_conf_gen",
+    filename: "wpa_supplicant.conf",
+    relative_install_path: "wifi",
+    vendor: true,
+}
+
+// Audio HAL multilib default, selected by the android_hardware_audio soong
+// config set in device.mk.
+soong_config_module_type {
+    name: "android_hardware_qtiaudio_config_default",
+    module_type: "cc_defaults",
+    config_namespace: "android_hardware_audio",
+    bool_variables: [
+        "run_64bit",
+    ],
+    properties: ["compile_multilib"],
+}
+
+android_hardware_qtiaudio_config_default {
+    name: "android_hardware_qtiaudio_config_defaults",
+
+    soong_config_variables: {
+        run_64bit: {
+            compile_multilib: "64",
+        },
+    },
 }

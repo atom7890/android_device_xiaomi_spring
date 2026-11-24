@@ -2,25 +2,28 @@
 # SPDX-FileCopyrightText: The LineageOS Project
 # SPDX-License-Identifier: Apache-2.0
 #
-
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit some common infinity stuff.
-$(call inherit-product, vendor/infinity/config/common_full_phone.mk)
+# Platform required during product configuration
+TARGET_BOARD_PLATFORM := blair
+TARGET_KERNEL_VERSION := 6.1
+TARGET_USES_KERNEL_PLATFORM := false
+
+# Use the UFS BSG interface with the prebuilt 6.1 kernel headers.
+$(call soong_config_set,ufsbsg,ufsframework,bsg)
+
+# Inherit some common PenguinOS / AOSPA stuff.
+TARGET_USES_BLUR := true
+$(call inherit-product, vendor/aospa/target/product/aospa-target.mk)
 
 # Inherit from spring device
 $(call inherit-product, device/xiaomi/spring/device.mk)
 
-# Infinity-X Specific Flags
-INFINITY_BUILD_TYPE := Unofficial
-INFINITY_MAINTAINER := "atom7890"
-WITH_GAPPS := true
-
 # Device identifiers
 PRODUCT_DEVICE := spring
-PRODUCT_NAME := infinity_spring
+PRODUCT_NAME := aospa_spring
 PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := 25057RN09G
 PRODUCT_MANUFACTURER := Xiaomi

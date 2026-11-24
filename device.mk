@@ -3,6 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Compile Settings XML with its own attributes; runtime overlays cannot safely
+# carry the preference-controller attributes used by these pages.
+PRODUCT_PACKAGE_OVERLAYS += device/xiaomi/spring/overlay
+PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += device/xiaomi/spring/overlay
+
 # Generic ramdisk allow list
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
 
@@ -21,9 +26,6 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # Virtual A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
-
-# Add common definitions for Qualcomm
-$(call inherit-product, hardware/qcom-caf/common/common.mk)
 
 # Setup dalvik vm configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
@@ -257,7 +259,6 @@ PRODUCT_PACKAGES += \
     CarrierConfigOverlaySpring \
     FrameworkResOverlaySpring \
     Launcher3OverlaySpring \
-    LineageSettingsProviderOverlaySpring \
     NfcOverlaySpring \
     SettingsOverlaySpring \
     SystemUIOverlaySpring \
@@ -296,9 +297,20 @@ PRODUCT_COPY_FILES += \
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH) \
     hardware/xiaomi \
+    hardware/qcom/wlan/qcwcn/wpa_supplicant_8_lib \
+    vendor/qcom/opensource/data-ipa-cfg-mgr \
     vendor/qcom/opensource/usb/etc
+
+# Lineage-only hardware/xiaomi modules that PenguinOS does not provide.
+PRODUCT_SOURCE_ROOT_DIRS += -hardware/xiaomi/aidl/touch
+PRODUCT_SOURCE_ROOT_DIRS += -hardware/dolby/shim
+PRODUCT_SOURCE_ROOT_DIRS += -hardware/xiaomi/packages/Euicc
+PRODUCT_SOURCE_ROOT_DIRS += -hardware/xiaomi/packages/EsimSwitcher
+
+# Shared Qualcomm blobs for other chips. Spring uses its own GNSS blobs (libgps.utils
+# comes from vendor/xiaomi/spring), so these cannot resolve their dependencies.
+PRODUCT_SOURCE_ROOT_DIRS += -vendor/qcom/common/vendor/gps-legacy
 
 # Telephony
 PRODUCT_PACKAGES += \
@@ -316,13 +328,13 @@ PRODUCT_PACKAGES += \
     qti-telephony-utils-prd \
     qti_telephony_utils.xml \
     qti_telephony_utils_prd.xml \
-    telephony-ext
+    telephony-ext \
+    libvndfwk_detect_jni.qti.vendor
 
 PRODUCT_PACKAGES += \
     xiaomi-telephony-stub
 
 PRODUCT_BOOT_JARS += \
-    telephony-ext \
     xiaomi-telephony-stub
 
 PRODUCT_COPY_FILES += \
@@ -387,7 +399,7 @@ PRODUCT_PACKAGES += \
     libwifi-hal-qcom \
     wpa_cli \
     wpa_supplicant \
-    wpa_supplicant.conf
+    spring_wpa_supplicant_conf
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_ODM)/etc/wifi/WCNSS_qcom_cfg.ini
@@ -404,3 +416,6 @@ PRODUCT_PACKAGES += \
 
 # Vendor
 $(call inherit-product, vendor/xiaomi/spring/spring-vendor.mk)
+
+# This product is arm64-only; select the installed 64-bit media server.
+PRODUCT_SYSTEM_PROPERTIES += ro.mediaserver.64b.enable=true
