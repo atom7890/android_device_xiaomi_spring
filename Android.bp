@@ -37,12 +37,15 @@ prebuilt_etc {
 // spring-kernel-headers and kernel-headers-audio are symlinks to that repo, so the
 // kernel repo stays stock. Do not name the first one "kernel-headers": the build
 // adds $(TARGET_DEVICE_DIR)/kernel-headers to every module as -isystem, and
-// those raw headers clash with bionic.
+// those raw headers clash with bionic. cleaned-headers comes first: it carries three
+// headers (asm/signal.h, asm-generic/signal.h, linux/eventpoll.h) without the
+// definitions that clash with bionic (struct sigaction, epoll_event).
 cc_library_headers {
     name: "generated_kernel_headers",
     vendor_available: true,
     recovery_available: true,
     export_include_dirs: [
+        "cleaned-headers",
         "spring-kernel-headers",
         "kernel-headers-audio",
     ],
