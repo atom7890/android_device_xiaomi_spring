@@ -33,6 +33,59 @@ prebuilt_etc {
     vendor: true,
 }
 
+// Kernel UAPI headers from the prebuilt kernel (device/xiaomi/spring-kernel).
+// spring-kernel-headers and kernel-headers-audio are symlinks to that repo, so the
+// kernel repo stays stock. Do not name the first one "kernel-headers": the build
+// adds $(TARGET_DEVICE_DIR)/kernel-headers to every module as -isystem, and
+// those raw headers clash with bionic.
+cc_library_headers {
+    name: "generated_kernel_headers",
+    vendor_available: true,
+    recovery_available: true,
+    export_include_dirs: [
+        "spring-kernel-headers",
+        "kernel-headers-audio",
+    ],
+}
+
+cc_defaults {
+    name: "generated_kernel_header_defaults",
+    vendor_available: true,
+    recovery_available: true,
+    header_libs: ["generated_kernel_headers"],
+    export_header_lib_headers: ["generated_kernel_headers"],
+}
+
+cc_library_headers {
+    name: "audio_kernel_headers",
+    defaults: ["generated_kernel_header_defaults"],
+}
+
+cc_library_headers {
+    name: "qti_audio_kernel_uapi",
+    defaults: ["generated_kernel_header_defaults"],
+}
+
+cc_library_headers {
+    name: "qti_display_kernel_headers",
+    defaults: ["generated_kernel_header_defaults"],
+}
+
+cc_library_headers {
+    name: "qti_ipa_kernel_headers",
+    defaults: ["generated_kernel_header_defaults"],
+}
+
+cc_library_headers {
+    name: "qti_kernel_headers",
+    defaults: ["generated_kernel_header_defaults"],
+}
+
+cc_library_headers {
+    name: "smmu_proxy_uapi_header",
+    defaults: ["generated_kernel_header_defaults"],
+}
+
 // Audio HAL multilib default, selected by the android_hardware_audio soong
 // config set in device.mk.
 soong_config_module_type {
