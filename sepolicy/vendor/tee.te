@@ -1,1 +1,9 @@
 allow tee mnt_vendor_file:dir r_dir_perms;
+
+# The qteeconnector HAL registers AIDL services; qva/vendor/blair, which declared the service
+# type and its rules, is dropped in BoardConfig.mk. Without this the service cannot be added
+# to servicemanager and restarts in a loop.
+type vendor_hal_qteeconnector_service, hal_service_type, protected_service, service_manager_type;
+hal_attribute_service(vendor_hal_qteeconnector, vendor_hal_qteeconnector_service)
+binder_call(vendor_hal_qteeconnector_server, servicemanager)
+allow vendor_hal_qteeconnector ion_device:chr_file rw_file_perms;

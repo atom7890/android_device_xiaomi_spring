@@ -1,1 +1,5 @@
 allow system_suspend_server batterysecret:binder transfer;
+
+# Kernel 6.1 exposes the RTC "name" node that system_suspend reads; the platform labels it
+# sysfs_rtc but does not allow the read.
+allow system_suspend_server sysfs_rtc:file r_file_perms;

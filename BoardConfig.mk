@@ -173,7 +173,21 @@ TARGET_USERIMAGES_USE_F2FS := true
 ENABLE_VENDOR_RIL_SERVICE := true
 
 # Sepolicy
+# Include the Qualcomm policies here instead of letting BoardConfigQcom.mk add
+# them later, so some dirs can be dropped:
+#  - the legacy blair dirs label /vendor/bin/poweropt-service differently from
+#    device/qcom/common;
+#  - the userdebug-only generic test dir lets untrusted/isolated apps reach the
+#    dspmanager HAL service, which violates the platform neverallow rules.
+# qva/vendor/test must stay: it defines the te_macros that qva/vendor/common uses.
+TARGET_EXCLUDE_QCOM_SEPOLICY := true
 include device/qcom/sepolicy_vndr/SEPolicy.mk
+include device/qcom/common/sepolicy/SEPolicy.mk
+BOARD_VENDOR_SEPOLICY_DIRS := $(filter-out \
+    device/qcom/sepolicy_vndr/generic/vendor/blair \
+    device/qcom/sepolicy_vndr/qva/vendor/blair \
+    device/qcom/sepolicy_vndr/generic/vendor/test,\
+    $(BOARD_VENDOR_SEPOLICY_DIRS))
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
 # Vendor security patch
@@ -246,6 +260,9 @@ include device/xiaomi/spring-miuicamera/BoardConfig.mk
 
 # Connect PenguinOS off-screen gestures to the spring touchscreen handler.
 TARGET_POWER_FEATURE_EXT_LIB := //device/xiaomi/spring:libpowerfeature-ext-spring
+
+# Device-only compatibility for legacy OEM property names and core clients.
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 
 # Qualcomm core-utils AndroidBoardCommon.mk and the Soong mountpoint modules in
 # device/qcom/common both create the same vendor mountpoints. Qualcomm's own

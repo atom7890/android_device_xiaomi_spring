@@ -1,0 +1,25 @@
+# Types that the remaining Qualcomm policy dirs refer to, but that are declared
+# only in device/qcom/sepolicy_vndr/generic/vendor/test. That directory is
+# dropped in BoardConfig.mk because it lets untrusted/isolated apps reach vendor
+# HAL services (platform neverallow violation).
+
+# Used by hal_bluetooth_default.te and shell.te in generic/vendor/common.
+type vendor_debugfs_bt_tracing, tracefs_type, debugfs_type, fs_type;
+type vendor_debugfs_kgsl_fence_tracing, tracefs_type, debugfs_type, fs_type;
+
+# Used by qva/vendor/test/file_contexts (init.fda.*.sh); the domain itself lives
+# in the dropped generic/vendor/test/vendor-qti-testscripts.te.
+type vendor-qti-testscripts_exec, exec_type, file_type, vendor_file_type;
+
+# Debug property types used by hal_sensors_default.te, sensors_qti.te and
+# qva/vendor/common/wifidisplayhalservice.te.
+vendor_restricted_prop(vendor_sensors_dbg_prop)
+vendor_internal_prop(vendor_wfd_vendor_debug_prop)
+
+# Used by qva/vendor/test/seapp_contexts.
+userdebug_or_eng(`
+  type vendor_pdt_app, domain;
+  app_domain(vendor_pdt_app)
+  net_domain(vendor_pdt_app)
+  permissive vendor_pdt_app;
+')
