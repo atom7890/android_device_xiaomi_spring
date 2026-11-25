@@ -9,3 +9,6 @@ allow vendor_hal_gnss_qti dmabuf_system_heap_device:chr_file { read };
 get_prop(vendor_hal_gnss_qti, vendor_sensors_prop)
 get_prop(vendor_hal_gnss_qti, vendor_mi_ins_prop)
 
+
+# The Qualcomm GNSS HAL checks whether the always-on sensor hub is present.
+get_prop(vendor_hal_gnss_qti, vendor_qc_aon_prop)
