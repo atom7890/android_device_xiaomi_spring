@@ -152,3 +152,14 @@ genfscon sysfs /devices/platform/soc/4804000.ufshc/host0/target0:0:0/0:0:0:3/scs
 genfscon sysfs /devices/platform/soc/4804000.ufshc/host0/target0:0:0/0:0:0:4/scsi_generic  u:object_r:vendor_sysfs_scsi_target:s0
 genfscon sysfs /devices/platform/soc/4804000.ufshc/host0/target0:0:0/0:0:0:5/scsi_generic  u:object_r:vendor_sysfs_scsi_target:s0
 genfscon sysfs /devices/platform/soc/soc:qfprom@0/feat_conf8 u:object_r:vendor_sysfs_qfprom:s0
+
+# ssr_setup turns subsystem restart on through the remoteproc "recovery" nodes.
+genfscon sysfs /devices/platform/soc/a400000.remoteproc-adsp/remoteproc/remoteproc0/recovery u:object_r:vendor_sysfs_ssr:s0
+genfscon sysfs /devices/platform/soc/b000000.remoteproc-cdsp/remoteproc/remoteproc1/recovery u:object_r:vendor_sysfs_ssr:s0
+genfscon sysfs /devices/platform/soc/6000000.remoteproc-mss/remoteproc/remoteproc2/recovery u:object_r:vendor_sysfs_ssr:s0
+
+# system_server reads the extcon cable names.
+genfscon sysfs /devices/platform/soc/1628000.qcom,msm-eud/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-02/1c40000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-02/1c40000.qcom,spmi:qcom,pm7250b@2:qcom,usb-pdphy@1700/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:bolero-codec/wcd937x-codec/extcon u:object_r:sysfs_extcon:s0
