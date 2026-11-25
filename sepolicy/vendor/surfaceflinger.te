@@ -1,0 +1,2 @@
+# SurfaceFlinger reads the display feature property, which is a vendor public property.
+get_prop(surfaceflinger, vendor_displayfeature_prop)
