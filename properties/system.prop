@@ -1,3 +1,9 @@
+# Camera
+# Only these packages see the auxiliary camera IDs (2 and 3). Everyone else gets cameras 0
+# and 1, as on stock. Without this every app sees camera 2, a logical camera whose
+# zoomRatioRange the HAL leaves invalid, and CameraX in Google apps fails on it.
+vendor.camera.aux.packagelist=com.android.camera,org.lineageos.aperture,org.codeaurora.snapcam
+
 # CNE
 persist.vendor.cne.feature=1
 
