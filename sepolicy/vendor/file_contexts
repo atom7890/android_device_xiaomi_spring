@@ -83,7 +83,6 @@
 
 # Mac Address
 /data/vendor/mac_addr(/.*)? u:object_r:vendor_mac_vendor_data_file:s0
-/vendor/bin/nv_mac u:object_r:vendor_wcnss_service_exec:s0
 
 # Touch
 /dev/xiaomi-touch u:object_r:touchfeature_device:s0
