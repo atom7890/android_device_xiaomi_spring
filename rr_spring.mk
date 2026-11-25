@@ -7,20 +7,17 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit some common infinity stuff.
-$(call inherit-product, vendor/infinity/config/common_full_phone.mk)
+# RR configuration
+RR_MAINTAINER := atom7890
+WITH_GMS := true
+$(call inherit-product, vendor/rr/config/common_full_phone.mk)
 
 # Inherit from spring device
 $(call inherit-product, device/xiaomi/spring/device.mk)
 
-# Infinity-X Specific Flags
-INFINITY_BUILD_TYPE := Unofficial
-INFINITY_MAINTAINER := "atom7890"
-WITH_GAPPS := true
-
 # Device identifiers
 PRODUCT_DEVICE := spring
-PRODUCT_NAME := infinity_spring
+PRODUCT_NAME := rr_spring
 PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := 25057RN09G
 PRODUCT_MANUFACTURER := Xiaomi

@@ -4,4 +4,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/infinity_spring.mk
+    $(LOCAL_DIR)/rr_spring.mk
