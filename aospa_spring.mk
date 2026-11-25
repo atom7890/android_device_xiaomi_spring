@@ -14,6 +14,18 @@ TARGET_USES_KERNEL_PLATFORM := false
 # Use the UFS BSG interface with the prebuilt 6.1 kernel headers.
 $(call soong_config_set,ufsbsg,ufsframework,bsg)
 
+# Qualcomm system-side perf stack: the QPerformance and UxPerformance boot jars, the
+# perfservice daemon, the client libraries and the perf properties. Without it the
+# framework logs ClassNotFoundException for com.qualcomm.qti.Performance and cannot use the
+# vendor perf HAL. Off by default. Opt in with:
+#   SPRING_QTI_PERF=true ./vendor/aospa/build.sh spring -g
+# The stock vendor perf HAL stays as it is (TARGET_PROVIDES_QTI_PERF_BLOBS). This must be
+# set here, before aospa-target.mk is inherited, because components.mk reads it there.
+ifeq ($(SPRING_QTI_PERF),true)
+TARGET_COMMON_QTI_COMPONENTS += perf
+TARGET_PROVIDES_QTI_PERF_BLOBS := true
+endif
+
 # Inherit some common PenguinOS / AOSPA stuff.
 TARGET_USES_BLUR := true
 $(call inherit-product, vendor/aospa/target/product/aospa-target.mk)
