@@ -1,5 +1,8 @@
 allow rild vendor_mbn_data_file:dir create_dir_perms;
 allow rild vendor_mbn_data_file:file create_file_perms;
+# The dispatcher in rild creates the MAC address directory.
+allow rild vendor_mac_vendor_data_file:dir rw_dir_perms;
+allow rild vendor_mac_vendor_data_file:file create_file_perms;
 get_prop(rild, vendor_cpuid_prop)
 get_prop(rild, vendor_miui_region_prop)
 get_prop(rild, vendor_miui_singlesim_prop)
