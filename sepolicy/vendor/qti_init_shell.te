@@ -3,3 +3,11 @@ allow vendor_qti_init_shell vendor_firmware_data_file:dir rw_dir_perms;
 allow vendor_qti_init_shell vendor_firmware_data_file:file rw_file_perms;
 allow vendor_qti_init_shell vendor_data_file:file { read open getattr };
 allow vendor_qti_init_shell vendor_data_file:dir { read open getattr };
+
+# Memory and storage tunables that the init scripts write at boot. The platform
+# labels them with types that vendor_qti_init_shell may not write by default.
+allow vendor_qti_init_shell proc_page_cluster:file rw_file_perms;
+allow vendor_qti_init_shell sysfs_lru_gen_enabled:file rw_file_perms;
+allow vendor_qti_init_shell vendor_sysfs_scsi_target:file rw_file_perms;
+allow vendor_qti_init_shell vendor_sysfs_qdss_dev:file rw_file_perms;
+get_prop(vendor_qti_init_shell, vendor_qc_aon_prop)
