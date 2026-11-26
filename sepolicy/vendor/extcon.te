@@ -1,0 +1,4 @@
+# The extcon directories are labeled sysfs_extcon (genfs_contexts). Before that they were
+# plain sysfs, which the audio and USB HALs may read, so keep their read access.
+r_dir_file(hal_audio, sysfs_extcon)
+r_dir_file(hal_usb, sysfs_extcon)

@@ -24,3 +24,9 @@ genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-06/1c40000.qcom,
 genfscon sysfs /devices/platform/soc/4cc0000.qcom,qupv3_1_geni_se/4c88000.i2c/i2c-0/0-0055/power_supply/bq28z610/authentic u:object_r:vendor_sysfs_battery_supply:s0
 genfscon sysfs /devices/platform/soc/4cc0000.qcom,qupv3_1_geni_se/4c88000.i2c/i2c-0/0-0055/verify_digest u:object_r:vendor_sysfs_battery_supply:s0
 genfscon sysfs /devices/platform/soc/soc:fpc1020/wakeup u:object_r:sysfs_wakeup:s0
+
+# system_server reads the extcon cable names.
+genfscon sysfs /devices/platform/soc/1628000.qcom,msm-eud/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-02/1c40000.qcom,spmi:qcom,pm7250b@2:qcom,qpnp-smb5/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/1c40000.qcom,spmi/spmi-0/0-02/1c40000.qcom,spmi:qcom,pm7250b@2:qcom,usb-pdphy@1700/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:spf_core_platform/soc:spf_core_platform:bolero-codec/wcd937x-codec/extcon u:object_r:sysfs_extcon:s0
