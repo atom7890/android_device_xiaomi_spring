@@ -1,0 +1,2 @@
+# modprobe looks through /dev/block while loading the storage modules.
+allow vendor_modprobe block_device:dir search;
