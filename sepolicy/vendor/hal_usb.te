@@ -1,0 +1,4 @@
+# The Qualcomm USB HAL reads the UDC (USB device controller) state in sysfs to
+# report the connection/data role. The platform labels /sys/class/udc as
+# sysfs_udc but only grants the AOSP gadget HAL access to it.
+r_dir_file(vendor_hal_usb_qti, sysfs_udc)
