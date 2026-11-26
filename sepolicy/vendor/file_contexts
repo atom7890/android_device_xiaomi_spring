@@ -92,3 +92,7 @@
 # Touchscreen firmware loaded directly by the kernel.
 /odm/firmware/novatek_ts_fw_csot\.bin u:object_r:vendor_firmware_file:s0
 /odm/firmware/novatek_ts_fw_csot_erp\.bin u:object_r:vendor_firmware_file:s0
+
+# Battery authentication nodes: keep the precise label through init restorecon.
+/sys/devices/platform/soc/4cc0000\.qcom,qupv3_1_geni_se/4c88000\.i2c/i2c-0/0-0055/power_supply/bq28z610/authentic u:object_r:vendor_sysfs_battery_supply:s0
+/sys/devices/platform/soc/4cc0000\.qcom,qupv3_1_geni_se/4c88000\.i2c/i2c-0/0-0055/verify_digest u:object_r:vendor_sysfs_battery_supply:s0
