@@ -88,3 +88,7 @@
 # Touch
 /dev/xiaomi-touch u:object_r:touchfeature_device:s0
 
+
+# Touchscreen firmware loaded directly by the kernel.
+/odm/firmware/novatek_ts_fw_csot\.bin u:object_r:vendor_firmware_file:s0
+/odm/firmware/novatek_ts_fw_csot_erp\.bin u:object_r:vendor_firmware_file:s0
